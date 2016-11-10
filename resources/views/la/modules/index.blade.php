@@ -26,7 +26,7 @@ use Dwij\Laraadmin\Models\Module;
 			<th>Name</th>
 			<th>Table</th>
 			<th>Items</th>
-			<th>Actions</th>
+			<th>Acción</th>
 		</tr>
 		</thead>
 		<tbody>

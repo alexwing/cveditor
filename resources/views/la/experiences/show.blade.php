@@ -15,7 +15,7 @@
 					<div class="profile-icon text-primary"><i class="fa {{ $module->fa_icon }}"></i></div>
 				</div>
 				<div class="col-md-9">
-					<h4 class="name">{{ $experience->$view_col }}</h4>
+					<h1 class="name" style="padding-top: 20px">{{ $experience->$view_col }}</h1>
 					
 				</div>
 			</div>
@@ -41,7 +41,7 @@
 
 	<ul data-toggle="ajax-tab" class="nav nav-tabs profile" role="tablist">
 		<li class=""><a href="{{ url(config('laraadmin.adminRoute') . '/experiences') }}" data-toggle="tooltip" data-placement="right" title="Back to Experiences"><i class="fa fa-chevron-left"></i></a></li>
-		<li class="active"><a role="tab" data-toggle="tab" class="active" href="#tab-general-info" data-target="#tab-info"><i class="fa fa-bars"></i> General Info</a></li>
+		<li class="active"><a role="tab" data-toggle="tab" class="active" href="#tab-general-info" data-target="#tab-info"><i class="fa fa-bars"></i> Experiencia</a></li>
 		
 	</ul>
 
@@ -49,13 +49,11 @@
 		<div role="tabpanel" class="tab-pane active fade in" id="tab-info">
 			<div class="tab-content">
 				<div class="panel infolist">
-					<div class="panel-default panel-heading">
-						<h4>General Info</h4>
-					</div>
+
 					<div class="panel-body">
 						@la_display($module, 'company')
 						@la_display($module, 'logo')
-						@la_display($module, 'begin     ')
+						@la_display($module, 'begin')
 						@la_display($module, 'end')
 						@la_display($module, 'description')
                   @la_display($module, 'user_id')

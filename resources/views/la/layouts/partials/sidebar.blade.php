@@ -8,10 +8,27 @@
         @if (! Auth::guest())
             <div class="user-panel">
                 <div class="pull-left image">
-                    <img src="{{ Gravatar::fallback(asset('la-assets/img/user2-160x160.jpg'))->get(Auth::user()->email) }}" class="img-circle" alt="User Image" />
+                     <?php
+                        
+                       $user =  \Auth::user()->context_id;
+               
+                       $employee = \App\Models\Employee::find($user);
+                       $upload = \App\Models\Upload::find($employee->profile_image);
+                    if (!empty($employee->profile_image)){
+                         $url_profile =  url("files/" . $upload->hash . DIRECTORY_SEPARATOR . $upload->name);
+                    
+                         ?>
+                         <img src="<?php echo $url_profile; ?>" class="img-circle" alt="User Image" />
+                         
+                    <?php } else { ?>
+                  
+                          <img src="{{ Gravatar::fallback(asset('la-assets/img/user2-160x160.jpg'))->get(Auth::user()->email) }}" class="img-circle" alt="User Image" />
+                          
+                    <?php } ?>    
                 </div>
                 <div class="pull-left info">
                     <p>{{ Auth::user()->name }}</p>
+
                     <!-- Status -->
                     <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
                 </div>
