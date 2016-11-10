@@ -1,14 +1,14 @@
 @extends("la.layouts.app")
 
-@section("contentheader_title", "Departments")
-@section("contentheader_description", "departments listing")
+@section("contentheader_title", "Perfiles")
+@section("contentheader_description", "Listado de perfiles")
 @section("section", "Departments")
 @section("sub_section", "Listing")
-@section("htmlheader_title", "Departments Listing")
+@section("htmlheader_title", "Listado de perfiles")
 
 @section("headerElems")
 @la_access("Departments", "create")
-	<button class="btn btn-success btn-sm pull-right" data-toggle="modal" data-target="#AddModal">Add Department</button>
+	<button class="btn btn-success btn-sm pull-right" data-toggle="modal" data-target="#AddModal">Añadir perfil</button>
 @endla_access
 @endsection
 
@@ -34,7 +34,7 @@
 			<th>{{ $module->fields[$col]['label'] or ucfirst($col) }}</th>
 			@endforeach
 			@if($show_actions)
-			<th>Actions</th>
+			<th>Acción</th>
 			@endif
 		</tr>
 		</thead>
