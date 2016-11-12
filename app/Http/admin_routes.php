@@ -61,8 +61,6 @@ Route::group(['as' => $as, 'middleware' => ['auth', 'permission:ADMIN_PANEL']], 
 	Route::resource(config('laraadmin.adminRoute') . '/employees', 'LA\EmployeesController');
 	Route::get(config('laraadmin.adminRoute') . '/employee_dt_ajax', 'LA\EmployeesController@dtajax');
 	Route::post(config('laraadmin.adminRoute') . '/change_password/{id}', 'LA\EmployeesController@change_password');
-   /* ================== Employees ================== */
-	Route::resource(config('laraadmin.adminRoute') . '/employees', 'LA\EmployeesController');
    Route::resource(config('laraadmin.adminRoute') . '/profile/', 'LA\EmployeesController@profile');
 	/* ================== Organizations ================== */
 	Route::resource(config('laraadmin.adminRoute') . '/organizations', 'LA\OrganizationsController');
