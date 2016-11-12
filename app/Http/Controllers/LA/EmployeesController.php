@@ -18,6 +18,7 @@ use Dwij\Laraadmin\Models\Module;
 use Dwij\Laraadmin\Models\ModuleFields;
 
 use Dwij\Laraadmin\Helpers\LAHelper;
+use Zizaco\Entrust\EntrustFacade as Entrust;
 
 use App\User;
 use App\Models\Employee;
@@ -51,6 +52,11 @@ class EmployeesController extends Controller
 	 */
 	public function index()
 	{
+      //only superadmin can list other users
+      if (!Entrust::hasRole('SUPER_ADMIN')) {
+            return redirect(config('laraadmin.adminRoute') . '/profile');
+      }    
+     
 		$module = Module::get('Employees');
 		
 		if(Module::hasAccess($module->id)) {
@@ -165,6 +171,11 @@ class EmployeesController extends Controller
 	 */
 	public function show($id)
 	{
+        
+      //only superadmin can list other users
+      if (!Entrust::hasRole('SUPER_ADMIN')) {
+            return redirect(config('laraadmin.adminRoute') . '/profile');
+      }  
 		if(Module::hasAccess("Employees", "view")) {
 			
 			$employee = Employee::find($id);
@@ -201,6 +212,11 @@ class EmployeesController extends Controller
 	 */
 	public function edit($id)
 	{
+      //only superadmin can edit other users  
+      $id_user = Auth::user()->id;       
+      if (!Entrust::hasRole('SUPER_ADMIN') && $id_user != $id) {
+            return redirect(config('laraadmin.adminRoute') . '/profile');
+      }
 		if(Module::hasAccess("Employees", "edit")) {
 			
 			$employee = Employee::find($id);
@@ -237,6 +253,12 @@ class EmployeesController extends Controller
 	 */
 	public function update(Request $request, $id)
 	{
+        
+      //only superadmin can edit other users  
+      $id_user = Auth::user()->id;       
+      if (!Entrust::hasRole('SUPER_ADMIN') && $id_user != $id) {
+            return redirect(config('laraadmin.adminRoute') . '/profile');
+      }
 		if(Module::hasAccess("Employees", "edit")) {
 			
 			$rules = Module::validateRules("Employees", $request, true);
@@ -254,12 +276,18 @@ class EmployeesController extends Controller
 			$user->name = $request->name;
 			$user->save();
 			
-			// update user role
-			$user->detachRoles();
-			$role = Role::find($request->role);
-			$user->attachRole($role);
-			
-			return redirect()->route(config('laraadmin.adminRoute') . '.employees.index');
+			// update user role only for superadmin
+         if (Entrust::hasRole('SUPER_ADMIN')){
+          $user->detachRoles();
+          $role = Role::find($request->role);
+          $user->attachRole($role);
+         }
+         //only superadmin can redirect to employees
+			if (Entrust::hasRole('SUPER_ADMIN')) {
+               return redirect()->route(config('laraadmin.adminRoute') . '.employees.index');
+         } else {
+            return redirect(config('laraadmin.adminRoute') . '/profile');
+         }
 			
 		} else {
 			return redirect(config('laraadmin.adminRoute')."/");
