@@ -52,10 +52,14 @@
 					@la_input($module, 'date_left')
 					@la_input($module, 'salary_cur')
 					--}}
-                    <div class="form-group">
-						<label for="role">Role* :</label>
+               @if(Entrust::hasRole("SUPER_ADMIN"))
+               <div class="form-group">
+						<label for="role">Rol:</label>
 						<select class="form-control" required="1" data-placeholder="Select Role" rel="select2" name="role">
-							<?php $roles = App\Role::all(); ?>
+                      
+               
+                      
+						<?php $roles = App\Role::all();$roles ?>
 							@foreach($roles as $role)
 								@if($role->id != 1 || Entrust::hasRole("SUPER_ADMIN"))
 									@if($user->hasRole($role->name))
@@ -68,13 +72,14 @@
 						</select>
 					</div>
 					<br>
+               @endif
 					<div class="form-group">
                   
 						{!! Form::submit( 'Guardar', ['class'=>'btn btn-success']) !!} 
                    @if(Entrust::hasRole("SUPER_ADMIN"))
                   <button class="btn btn-default pull-right"><a href="{{ url(config('laraadmin.adminRoute') . '/employees') }}">Cancelar</a></button>
                   @else
-                  <button class="btn btn-default pull-right"><a href="{{ url(config('laraadmin.adminRoute') . '/profile') }}">Cance</a></button>
+                  <button class="btn btn-default pull-right"><a href="{{ url(config('laraadmin.adminRoute') . '/profile') }}">Cancelar</a></button>
                   @endif
 					</div>
 				{!! Form::close() !!}
