@@ -11,12 +11,15 @@
 		<div class="col-md-4">
 			<div class="row">
 				<div class="col-md-3">
-              @if(isset($module->row)) 
+              <?php 
+               $employee = $module->row;
+               $upload = \App\Models\Upload::find($employee->profile_image);              
+              ?>
+              @if(isset($module->row) && !empty($employee->profile_image) && !empty($upload)) 
                <?php
-                    $employee = $module->row;
-                    $upload = \App\Models\Upload::find($employee->profile_image);
                     $url_profile =  url("files/" . $upload->hash . DIRECTORY_SEPARATOR . $upload->name);
                     ?><img class="profile-image" src="<?php echo $url_profile; ?>" alt="">
+
                @else
                   <img class="profile-image" src="{{ Gravatar::fallback(asset('/img/avatar5.png'))->get(Auth::user()->email, ['size'=>400]) }}" alt="">
                @endif

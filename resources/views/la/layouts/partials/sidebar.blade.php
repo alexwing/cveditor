@@ -14,7 +14,7 @@
                
                        $employee = \App\Models\Employee::find($user);
                        $upload = \App\Models\Upload::find($employee->profile_image);
-                    if (!empty($employee->profile_image)){
+                    if (!empty($employee->profile_image) && !empty($upload)){
                          $url_profile =  url("files/" . $upload->hash . DIRECTORY_SEPARATOR . $upload->name);
                     
                          ?>
