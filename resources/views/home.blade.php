@@ -52,14 +52,14 @@
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="#home" class="smoothScroll">Home</a></li>
-                <li><a href="#about" class="smoothScroll">About</a></li>
-                <li><a href="#contact" class="smoothScroll">Contact</a></li>
+                <li class="active"><a href="#home" class="smoothScroll">Inicio</a></li>
+                <li><a href="#about" class="smoothScroll">Tu currículum</a></li>
+                <li><a href="#contact" class="smoothScroll">Comencemos </a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 @if (Auth::guest())
-                    <li><a href="{{ url('/login') }}">Login</a></li>
-                    <!--<li><a href="{{ url('/register') }}">Register</a></li>-->
+                    <li><a href="{{ url('/login') }}">Acceder</a></li>
+                    <li><a href="{{ url('/register') }}">Regí    strate</a></li>
                 @else
                     <li><a href="{{ url(config('laraadmin.adminRoute')) }}">{{ Auth::user()->name }}</a></li>
                 @endif
@@ -76,11 +76,11 @@
             <div class="col-lg-12">
                 <h1>{{ LAConfigs::getByKey('sitename_part1') }} <b><a>{{ LAConfigs::getByKey('sitename_part2') }}</a></b></h1>
                 <h3>{{ LAConfigs::getByKey('site_description') }}</h3>
-                <h3><a href="{{ url('/login') }}" class="btn btn-lg btn-success">Get Started!</a></h3><br>
+                <h3><a href="{{ url('/login') }}" class="btn btn-lg btn-success">¡Empieza ya!</a></h3><br>
             </div>
             <div class="col-lg-2">
-                <h5>Amazing Functionalities</h5>
-                <p>for Modern Admin Panels</p>
+                <h5>Gestiona tu currículum</h5>
+                <p>Desde un panel amigable</p>
                 <img class="hidden-xs hidden-sm hidden-md" src="{{ asset('/la-assets/img/arrow1.png') }}">
             </div>
             <div class="col-lg-8">
@@ -89,8 +89,8 @@
             <div class="col-lg-2">
                 <br>
                 <img class="hidden-xs hidden-sm hidden-md" src="{{ asset('/la-assets/img/arrow2.png') }}">
-                <h5>Completely Packaged...</h5>
-                <p>for Future expantion of Modules</p>
+                <h5>Visualízalo y exportalo</h5>
+                <p>Elige entre varias plantillas y genera un PDF</p>
             </div>
         </div>
     </div> <!--/ .container -->
@@ -102,23 +102,23 @@
 <div id="intro">
     <div class="container">
         <div class="row centered">
-            <h1>An Architecture designed To Excel</h1>
+            <h1>Crea tu currículum de una manera sencilla</h1>
             <br>
             <br>
             <div class="col-lg-4">
                 <i class="fa fa-cubes" style="font-size:100px;height:110px;"></i>
                 <h3>Modular</h3>
-                <p>Making Data Management fast and enjoyable.</p>
+                <p>Elige el formato más serio o el más atractivo en función de tus preferencias.</p>
             </div>
             <div class="col-lg-4">
                 <i class="fa fa-paper-plane" style="font-size:100px;height:110px;"></i>
-                <h3>Easy to Install</h3>
-                <p>With single installation command.</p>
+                <h3>Fácil de administrar</h3>
+                <p>Rellena tus datos una vez, para distintos diseños.</p>
             </div>
             <div class="col-lg-4">
-                <i class="fa fa-cubes" style="font-size:100px;height:110px;"></i>
-                <h3>Customizable</h3>
-                <p>Easy to Manipulation the flows.</p>
+                <i class="fa fa-pagelines" style="font-size:100px;height:110px;"></i>
+                <h3>Se libre</h3>
+                <p>Tus datos son tuyos, elimina tu perfil y exporta tus datos cuando quieras.</p>
             </div>
         </div>
         <br>
@@ -135,16 +135,16 @@
             </div>
 
             <div class="col-lg-7">
-				<h3 class="feature-title">What is LaraAdmin ?</h3><br>
+				<h3 class="feature-title">¿Que es CV Editor?</h3><br>
 				<ol class="features">
-					<li><strong>CMS</strong> (Content Management System) &#8211; Manages Modules &amp; their Data</li>
-					<li>Backend <strong>Admin Panel</strong> &#8211; Data can be used in front end applications with ease.</li>
-					<li>A probable <strong>CRM</strong> System &#8211; Can be evolved into a CRM system like <a target="_blank" href="https://www.sugarcrm.com">SugarCRM</a></li>
+					<li>Es un editor de currículum online, donde podrás rellenar tus datos y generar distintas versiones de tu CV a través de las distintas plantillas que ofrecemos.</li>
+					<li>Desarrollado en sofware libre, Puedes descargarlo e instarlo en tu propio servidor <a target="_blank" href="https://github.com/alexwing/cveditor">Aquí.</a></li>
+               <li>Si eres desarrollador incluso podrás crear tus propias plantillas.</li>
 				</ol><br>
 
-				<h3 class="feature-title">Why LaraAdmin ?</h3><br>
+				<h3 class="feature-title">¿Por qué CV Editor?</h3><br>
                 <ol class="features">
-					<li><strong>Philosophy:</strong> Inspired by SugarCRM &amp; based on Advanced <strong>Data Types</strong> like Image, HTML, File, Dropdown, TagInput which makes developers job easy. See more in <a target="_blank" href="http://laraadmin.com/features">features</a></li>
+					<li><strong>Filosofia:</strong> Crear tu porfolio sin necesidad de herramientas externas</li>
 					<li>Superior <strong>CRUD generation</strong> for Modules which generates Migration, Controller, Model and Views with single artisan command and integrates with Routes as as well.</li>
 					<li><strong>Form Maker</strong> helper is provided for generating entire form with single function call with module name as single parameter. It also gives you freedom to customise form for every field by providing method to generate single field with parameters for customisations.</li>
 					<li><b>Upload Manager </b>manages project files &amp; images which are integrated with your Module fields.</li>

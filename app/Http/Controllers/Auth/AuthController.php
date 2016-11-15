@@ -47,12 +47,12 @@ class AuthController extends Controller
     {
         $roleCount = Role::count();
 		if($roleCount != 0) {
-			$userCount = User::count();
-			if($userCount == 0) {
+			//    $userCount = User::count();
+			//if($userCount == 0) {
 				return view('auth.register');
-			} else {
-				return redirect('login');
-			}
+			//} else {
+			//	return redirect('login');
+			//}
 		} else {
 			return view('errors.error', [
 				'title' => 'Migration not completed',
@@ -107,19 +107,16 @@ class AuthController extends Controller
         
         $employee = Employee::create([
             'name' => $data['name'],
-            'designation' => "Super Admin",
-            'mobile' => "8888888888",
+            'designation' => "Candidato",
+            'mobile' => "",
             'mobile2' => "",
             'email' => $data['email'],
-            'gender' => 'Male',
+            'gender' => 'Masculino',
             'dept' => "1",
-            'city' => "Pune",
-            'address' => "Karve nagar, Pune 411030",
-            'about' => "About user / biography",
+            'city' => "",
+            'address' => "",
+            'about' => "Sobre mi",
             'date_birth' => date("Y-m-d"),
-            'date_hire' => date("Y-m-d"),
-            'date_left' => date("Y-m-d"),
-            'salary_cur' => 0,
         ]);
         
         $user = User::create([
@@ -129,7 +126,8 @@ class AuthController extends Controller
             'context_id' => $employee->id,
             'type' => "Employee",
         ]);
-        $role = Role::where('name', 'SUPER_ADMIN')->first();
+        //$role = Role::where('name', 'SUPER_ADMIN')->first();
+        $role = Role::where('name', 'CANDIDATO')->first();
         $user->attachRole($role);
     
         return $user;

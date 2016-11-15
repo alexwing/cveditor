@@ -8,6 +8,8 @@ Route::auth();
 /* ================== Access Uploaded Files ================== */
 Route::get('files/{hash}/{name}', 'LA\UploadsController@get_file');
 
+
+Route::get('/register', 'Auth\AuthController@showRegistrationForm');
 /*
 |--------------------------------------------------------------------------
 | Admin Application Routes
@@ -20,6 +22,8 @@ if(\Dwij\Laraadmin\Helpers\LAHelper::laravel_ver() == 5.3) {
 	
 	// Routes for Laravel 5.3
 	Route::get('/logout', 'Auth\LoginController@logout');
+   
+   
 }
 
 Route::group(['as' => $as, 'middleware' => ['auth', 'permission:ADMIN_PANEL']], function () {
@@ -81,4 +85,8 @@ Route::group(['as' => $as, 'middleware' => ['auth', 'permission:ADMIN_PANEL']], 
 	/* ================== Experiences ================== */
 	Route::resource(config('laraadmin.adminRoute') . '/experiences', 'LA\ExperiencesController');
 	Route::get(config('laraadmin.adminRoute') . '/experience_dt_ajax', 'LA\ExperiencesController@dtajax');
+
+	/* ================== Education ================== */
+	Route::resource(config('laraadmin.adminRoute') . '/education', 'LA\EducationController');
+	Route::get(config('laraadmin.adminRoute') . '/education_dt_ajax', 'LA\EducationController@dtajax');
 });
