@@ -80,10 +80,12 @@ class ExperiencesController extends Controller {
                $rules = Module::validateRules("Experiences", $request);
 
                $validator = Validator::make($request->all(), $rules);
-
-               //asigno el id del usuario logeado
-               $request->user_id = Auth::user()->id;
-
+              
+               //only superadmin can edit user
+               if (!Entrust::hasRole('SUPER_ADMIN')) {
+                        //set currert user id to table
+                        $request->user_id = Auth::user()->id;
+               }
                if ($validator->fails()) {
                     return redirect()->back()->withErrors($validator)->withInput();
                }
@@ -172,7 +174,7 @@ class ExperiencesController extends Controller {
 
                if ($validator->fails()) {
                     return redirect()->back()->withErrors($validator)->withInput();
-                    ;
+                    
                }
 
                $insert_id = Module::updateRow("Experiences", $request, $id);
@@ -207,7 +209,8 @@ class ExperiencesController extends Controller {
       */
      public function dtajax() {
 
-          if (Entrust::hasRole('SUPER_ADMIN') == 1) {
+          //only superadmin show all
+          if (Entrust::hasRole('SUPER_ADMIN')) {
                $values = DB::table('experiences')->select($this->listing_cols)->whereNull('deleted_at');
           } else {
                $values = DB::table('experiences')->select($this->listing_cols)->whereNull('deleted_at')->where('user_id', '=', Auth::user()->id);
