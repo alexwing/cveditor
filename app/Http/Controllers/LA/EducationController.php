@@ -107,15 +107,22 @@ class EducationController extends Controller {
 
                $education = Education::find($id);
                if (isset($education->id)) {
-                    $module = Module::get('Education');
-                    $module->row = $education;
 
-                    return view('la.education.show', [
-                                'module' => $module,
-                                'view_col' => $this->view_col,
-                                'no_header' => true,
-                                'no_padding' => "no-padding"
-                            ])->with('education', $education);
+                    //only show owner education or superadmin user
+                    if (Entrust::hasRole('SUPER_ADMIN') || $education->user_id == Auth::user()->id) {
+
+                         $module = Module::get('Education');
+                         $module->row = $education;
+
+                         return view('la.education.show', [
+                                     'module' => $module,
+                                     'view_col' => $this->view_col,
+                                     'no_header' => true,
+                                     'no_padding' => "no-padding"
+                                 ])->with('education', $education);
+                    } else {
+                         return redirect(config('laraadmin.adminRoute') . "/");
+                    }
                } else {
                     return view('errors.404', [
                         'record_id' => $id,
@@ -137,14 +144,21 @@ class EducationController extends Controller {
           if (Module::hasAccess("Education", "edit")) {
                $education = Education::find($id);
                if (isset($education->id)) {
-                    $module = Module::get('Education');
 
-                    $module->row = $education;
+                    //only edit owner education or superadmin user
+                    if (Entrust::hasRole('SUPER_ADMIN') || $education->user_id == Auth::user()->id) {
 
-                    return view('la.education.edit', [
-                                'module' => $module,
-                                'view_col' => $this->view_col,
-                            ])->with('education', $education);
+                         $module = Module::get('Education');
+
+                         $module->row = $education;
+
+                         return view('la.education.edit', [
+                                     'module' => $module,
+                                     'view_col' => $this->view_col,
+                                 ])->with('education', $education);
+                    } else {
+                         return redirect(config('laraadmin.adminRoute') . "/");
+                    }
                } else {
                     return view('errors.404', [
                         'record_id' => $id,
@@ -172,7 +186,6 @@ class EducationController extends Controller {
 
                if ($validator->fails()) {
                     return redirect()->back()->withErrors($validator)->withInput();
-                    
                }
 
                $insert_id = Module::updateRow("Education", $request, $id);
@@ -191,10 +204,18 @@ class EducationController extends Controller {
       */
      public function destroy($id) {
           if (Module::hasAccess("Education", "delete")) {
-               Education::find($id)->delete();
 
-               // Redirecting to index() method
-               return redirect()->route(config('laraadmin.adminRoute') . '.education.index');
+               $education = Education::find($id);
+               //only edit owner experiences or superadmin user
+               if (Entrust::hasRole('SUPER_ADMIN') || $education->user_id == Auth::user()->id) {
+
+                    Education::find($id)->delete();
+
+                    // Redirecting to index() method
+                    return redirect()->route(config('laraadmin.adminRoute') . '.education.index');
+               } else {
+                    return redirect(config('laraadmin.adminRoute') . "/");
+               }
           } else {
                return redirect(config('laraadmin.adminRoute') . "/");
           }

@@ -80,11 +80,11 @@ class ExperiencesController extends Controller {
                $rules = Module::validateRules("Experiences", $request);
 
                $validator = Validator::make($request->all(), $rules);
-              
+
                //only superadmin can edit user
                if (!Entrust::hasRole('SUPER_ADMIN')) {
-                        //set currert user id to table
-                        $request->user_id = Auth::user()->id;
+                    //set currert user id to table
+                    $request->user_id = Auth::user()->id;
                }
                if ($validator->fails()) {
                     return redirect()->back()->withErrors($validator)->withInput();
@@ -109,15 +109,22 @@ class ExperiencesController extends Controller {
 
                $experience = Experience::find($id);
                if (isset($experience->id)) {
-                    $module = Module::get('Experiences');
-                    $module->row = $experience;
 
-                    return view('la.experiences.show', [
-                                'module' => $module,
-                                'view_col' => $this->view_col,
-                                'no_header' => true,
-                                'no_padding' => "no-padding"
-                            ])->with('experience', $experience);
+                    //only show owner experiences or superadmin user
+                    if (Entrust::hasRole('SUPER_ADMIN') || $experience->user_id == Auth::user()->id) {
+
+                         $module = Module::get('Experiences');
+                         $module->row = $experience;
+
+                         return view('la.experiences.show', [
+                                     'module' => $module,
+                                     'view_col' => $this->view_col,
+                                     'no_header' => true,
+                                     'no_padding' => "no-padding"
+                                 ])->with('experience', $experience);
+                    } else {
+                         return redirect(config('laraadmin.adminRoute') . "/");
+                    }
                } else {
                     return view('errors.404', [
                         'record_id' => $id,
@@ -136,17 +143,25 @@ class ExperiencesController extends Controller {
       * @return \Illuminate\Http\Response
       */
      public function edit($id) {
+
           if (Module::hasAccess("Experiences", "edit")) {
                $experience = Experience::find($id);
                if (isset($experience->id)) {
-                    $module = Module::get('Experiences');
 
-                    $module->row = $experience;
+                    //only edit owner experiences or superadmin user
+                    if (Entrust::hasRole('SUPER_ADMIN') || $experience->user_id == Auth::user()->id) {
 
-                    return view('la.experiences.edit', [
-                                'module' => $module,
-                                'view_col' => $this->view_col,
-                            ])->with('experience', $experience);
+                         $module = Module::get('Experiences');
+
+                         $module->row = $experience;
+
+                         return view('la.experiences.edit', [
+                                     'module' => $module,
+                                     'view_col' => $this->view_col,
+                                 ])->with('experience', $experience);
+                    } else {
+                         return redirect(config('laraadmin.adminRoute') . "/");
+                    }
                } else {
                     return view('errors.404', [
                         'record_id' => $id,
@@ -174,7 +189,6 @@ class ExperiencesController extends Controller {
 
                if ($validator->fails()) {
                     return redirect()->back()->withErrors($validator)->withInput();
-                    
                }
 
                $insert_id = Module::updateRow("Experiences", $request, $id);
@@ -193,10 +207,18 @@ class ExperiencesController extends Controller {
       */
      public function destroy($id) {
           if (Module::hasAccess("Experiences", "delete")) {
-               Experience::find($id)->delete();
 
-               // Redirecting to index() method
-               return redirect()->route(config('laraadmin.adminRoute') . '.experiences.index');
+               $experience = Experience::find($id);
+               //only edit owner experiences or superadmin user
+               if (Entrust::hasRole('SUPER_ADMIN') || $experience->user_id == Auth::user()->id) {
+
+                    Experience::find($id)->delete();
+
+                    // Redirecting to index() method
+                    return redirect()->route(config('laraadmin.adminRoute') . '.experiences.index');
+               } else {
+                    return redirect(config('laraadmin.adminRoute') . "/");
+               }
           } else {
                return redirect(config('laraadmin.adminRoute') . "/");
           }
