@@ -8,6 +8,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests;
 use Illuminate\Http\Request;
+use Auth;
 
 /**
  * Class HomeController
@@ -35,7 +36,12 @@ class HomeController extends Controller
         $roleCount = \App\Role::count();
 		if($roleCount != 0) {
 			if($roleCount != 0) {
-				return view('home');
+              //if user is logged home go to the user profile
+              if (isset(Auth::user()->id)){
+                 return redirect(config('laraadmin.adminRoute') . '/profile');
+              }else {
+                 return view('home');
+              }
 			}
 		} else {
 			return view('errors.error', [
