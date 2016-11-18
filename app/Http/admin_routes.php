@@ -89,4 +89,8 @@ Route::group(['as' => $as, 'middleware' => ['auth', 'permission:ADMIN_PANEL']], 
 	/* ================== Education ================== */
 	Route::resource(config('laraadmin.adminRoute') . '/education', 'LA\EducationController');
 	Route::get(config('laraadmin.adminRoute') . '/education_dt_ajax', 'LA\EducationController@dtajax');
+
+	/* ================== Education_types ================== */
+	Route::resource(config('laraadmin.adminRoute') . '/education_types', 'LA\Education_typesController');
+	Route::get(config('laraadmin.adminRoute') . '/education_type_dt_ajax', 'LA\Education_typesController@dtajax');
 });
