@@ -15,6 +15,7 @@
 <!-- include summernote css/js-->
 
 <script src="{{ asset('la-assets/js/summernote.js') }}" type="text/javascript"></script>
+<script src="{{ asset('la-assets/js/summernote-es-ES.js') }}" type="text/javascript"></script>
 
 <!-- AdminLTE App -->
 <script src="{{ asset('la-assets/js/app.min.js') }}" type="text/javascript"></script>

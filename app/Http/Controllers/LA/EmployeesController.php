@@ -278,7 +278,9 @@ class EmployeesController extends Controller {
                }
                //only superadmin can redirect to employees
                if (Entrust::hasRole('SUPER_ADMIN')) {
-                    return redirect()->route(config('laraadmin.adminRoute') . '.employees.index');
+                   //return redirect(config('laraadmin.adminRoute') . "/employees/".$id_user."/edit");
+
+                   return redirect()->route(config('laraadmin.adminRoute') . '.employees.index');
                } else {
                     return redirect(config('laraadmin.adminRoute') . '/profile');
                }

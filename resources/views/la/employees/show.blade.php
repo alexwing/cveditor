@@ -8,9 +8,9 @@
 @section('main-content')
 <div id="page-content" class="profile2">
 	<div class="bg-success clearfix">
-		<div class="col-md-4">
+		<div class="col-md-6">
 			<div class="row">
-				<div class="col-md-3">
+             <div class="col-md-2" style="min-width: 80px">
               <?php 
                $employee = $module->row;
                $upload = \App\Models\Upload::find($employee->profile_image);              
@@ -28,33 +28,18 @@
 					<h4 class="name">{{ $employee->$view_col }}</h4>
 					<div class="row stats">
 						<div class="col-md-6 stat"><div class="label2" data-toggle="tooltip" data-placement="top" title="Designation">{{ $employee->designation }}</div></div>
-						<div class="col-md-6 stat"><i class="fa fa-map-marker"></i> {{ $employee->city or "NA" }}</div>
 					</div>
-					<p class="desc">{{ substr(strip_tags($employee->about), 0, 33) }}@if(strip_tags(strlen($employee->about)) > 33)...@endif</p>
+					<p class="desc">{{ substr(strip_tags($employee->about), 0, 66) }}@if(strip_tags(strlen($employee->about)) > 66 )...@endif</p>
 				</div>
 			</div>
 		</div>
-		<div class="col-md-3">
+		<div class="col-md-5">
 			<div class="dats1"><i class="fa fa-envelope-o"></i> {{ $employee->email }}</div>
 			<div class="dats1"><i class="fa fa-phone"></i> {{ $employee->mobile }}</div>
+         <div class="dats1"><i class="fa fa-map-marker"></i> {{ $employee->city or "NA" }}</div>
 			<!--<div class="dats1"><i class="fa fa-clock-o"></i> Joined on {{ date("M d, Y", strtotime($employee->date_hire)) }}</div>-->
 		</div>
-		<div class="col-md-4">
-			<!--<div class="teamview">
-				<a class="face" data-toggle="tooltip" data-placement="top" title="John Doe"><img src="{{ asset('la-assets/img/user1-128x128.jpg') }}" alt=""><i class="status-online"></i></a>
-				<a class="face" data-toggle="tooltip" data-placement="top" title="John Doe"><img src="{{ asset('la-assets/img/user2-160x160.jpg') }}" alt=""></a>
-				<a class="face" data-toggle="tooltip" data-placement="top" title="John Doe"><img src="{{ asset('la-assets/img/user3-128x128.jpg') }}" alt=""></a>
-				<a class="face" data-toggle="tooltip" data-placement="top" title="John Doe"><img src="{{ asset('la-assets/img/user4-128x128.jpg') }}" alt=""><i class="status-online"></i></a>
-				<a class="face" data-toggle="tooltip" data-placement="top" title="John Doe"><img src="{{ asset('la-assets/img/user5-128x128.jpg') }}" alt=""></a>
-				<a class="face" data-toggle="tooltip" data-placement="top" title="John Doe"><img src="{{ asset('la-assets/img/user6-128x128.jpg') }}" alt=""></a>
-				<a class="face" data-toggle="tooltip" data-placement="top" title="John Doe"><img src="{{ asset('la-assets/img/user7-128x128.jpg') }}" alt=""></a>
-				<a class="face" data-toggle="tooltip" data-placement="top" title="John Doe"><img src="{{ asset('la-assets/img/user8-128x128.jpg') }}" alt=""></a>
-				<a class="face" data-toggle="tooltip" data-placement="top" title="John Doe"><img src="{{ asset('la-assets/img/user5-128x128.jpg') }}" alt=""></a>
-				<a class="face" data-toggle="tooltip" data-placement="top" title="John Doe"><img src="{{ asset('la-assets/img/user6-128x128.jpg') }}" alt=""><i class="status-online"></i></a>
-				<a class="face" data-toggle="tooltip" data-placement="top" title="John Doe"><img src="{{ asset('la-assets/img/user7-128x128.jpg') }}" alt=""></a>
-			</div>-->
-			
-		</div>
+
 		<div class="col-md-1 actions">
 			@la_access("Employees", "edit")
 				<a href="{{ url(config('laraadmin.adminRoute') . '/employees/'.$employee->id.'/edit') }}" class="btn btn-xs btn-edit btn-default"><i class="fa fa-pencil"></i></a><br>
@@ -69,8 +54,10 @@
 	</div>
 
 	<ul data-toggle="ajax-tab" class="nav nav-tabs profile" role="tablist">
+      @if(Entrust::hasRole("SUPER_ADMIN"))
 		<li class=""><a href="{{ url(config('laraadmin.adminRoute') . '/employees') }}" data-toggle="tooltip" data-placement="right" title="Back to Employees"><i class="fa fa-chevron-left"></i></a></li>
-		<li class="active"><a role="tab" data-toggle="tab" class="active" href="#tab-info" data-target="#tab-info"><i class="fa fa-bars"></i> Datos del candidato</a></li>
+		@endif
+      <li class="active"><a role="tab" data-toggle="tab" class="active" href="#tab-info" data-target="#tab-info"><i class="fa fa-bars"></i> Datos del candidato</a></li>
 		
 		@if($employee->id == Auth::user()->id || Entrust::hasRole("SUPER_ADMIN"))
 			<li class=""><a role="tab" data-toggle="tab" href="#tab-account-settings" data-target="#tab-account-settings"><i class="fa fa-key"></i> Datos de la cuenta</a></li>
